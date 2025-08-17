@@ -1,0 +1,23 @@
+<h2 class="text-3xl font-bold mb-6 text-gray-700">Nos Produits</h2>
+
+<!-- Product list using a Tailwind CSS grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div>
+    <p-card [header]="">
+      <ng-template pTemplate="header">
+        <img class="w-full h-48 object-cover">
+      </ng-template>
+      <p></p>
+      <p class="text-gray-600">
+
+      </p>
+      <ng-template pTemplate="footer">
+        <p-button label="View Details"
+                  icon="pi pi-search"
+                  styleClass="w-full"
+                  >
+        </p-button>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
