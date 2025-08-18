@@ -8,16 +8,18 @@
         <img [src]="Product.imageUrl"  [alt]="Product.imageUrl" class="w-full h-48 object-cover">
       </ng-template>
       <p>
-      {{Product.price | currency:'eur'}}
+      {{Product.price | currency}}
       </p>
       <p class="text-gray-600">
           {{ Product.description }}
       </p>
-      <ng-template pTemplate="footer">
-        <p-button label="View Details"
+      <ng-template  pTemplate="footer">
+        <p-button class=" bg-amber-600 p-4 rounded-md text-white " label="details du produit"
                   icon="pi pi-search"
-                  styleClass="w-full"
+                  styleClass=""
+                  [routerLink]="['/details' , Product.id]"
                   >
+
         </p-button>
       </ng-template>
     </p-card>
