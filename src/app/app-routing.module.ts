@@ -5,9 +5,9 @@ import { DetailsComponent } from './details/details.component';
 
 const routes: Routes = [
   {
-    path: ' ',
+    path: '',
     redirectTo: 'home',
-    component: HomeComponent,
+    pathMatch: 'full',
   },
 
   {
@@ -19,11 +19,12 @@ const routes: Routes = [
     path: 'details/:id',
     component: DetailsComponent,
   },
-  {
-    path: 'dashboard',
-    loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-  },
+
+  // {
+  //   path: 'dashboard',
+  //   loadChildren: () =>
+  //     import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  // },
 ];
 
 @NgModule({

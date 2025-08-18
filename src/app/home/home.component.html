@@ -2,14 +2,16 @@
 
 <!-- Product list using a Tailwind CSS grid -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  <div>
-    <p-card [header]="">
+  <div *ngFor="let Product of products$ | async" >
+    <p-card [header]="Product.name">
       <ng-template pTemplate="header">
-        <img class="w-full h-48 object-cover">
+        <img [src]="Product.imageUrl"  [alt]="Product.imageUrl" class="w-full h-48 object-cover">
       </ng-template>
-      <p></p>
+      <p>
+      {{Product.price | currency:'eur'}}
+      </p>
       <p class="text-gray-600">
-
+          {{ Product.description }}
       </p>
       <ng-template pTemplate="footer">
         <p-button label="View Details"
