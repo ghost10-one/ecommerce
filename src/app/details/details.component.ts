@@ -3,19 +3,19 @@ import { Observable, switchMap } from 'rxjs';
 import { Iproducts } from '../iproduct';
 import { ProductService } from '../serviceProduct/product.service';
 import { ActivatedRoute } from '@angular/router';
-
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
+
+
 export class DetailsComponent implements OnInit {
  public product$ !: Observable<Iproducts>
  public selectedSize : string | null = null ;
  public selectedColor : string | null = null ;
 
  constructor(private productService: ProductService , private route : ActivatedRoute) {}
-
 
 ngOnInit(): void {
 
