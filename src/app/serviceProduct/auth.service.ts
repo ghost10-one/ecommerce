@@ -12,8 +12,8 @@ export interface AuthResponse {
 export interface UserPayload {
   id: number | string;
   name: string;
-  iat: string;
-  exp: string;
+  iat: number;
+  exp: number;
 }
 
 @Injectable({
@@ -129,4 +129,5 @@ export class AuthService {
     this.authState.next(false);
     this.user.next(null);
   }
+
 }
