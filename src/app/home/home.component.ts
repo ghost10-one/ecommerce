@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Iproducts } from '../iproduct';
 import { ProductService } from './../serviceProduct/product.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,6 +11,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   public products$! : Observable<Iproducts[]>
+
+  private searchTerm = new Subject<string>();
 
   constructor( private ProductService: ProductService) { }
 

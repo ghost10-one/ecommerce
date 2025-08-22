@@ -1,5 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { Iproducts } from '../iproduct';
 import { ProductService } from '../serviceProduct/product.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,8 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit , OnDestroy {
  public product$ !: Observable<Iproducts>
+ public paramSub$!:Subscription ;
  public selectedSize : string | null = null ;
  public selectedColor : string | null = null ;
 
@@ -25,10 +26,16 @@ ngOnInit(): void {
       return this.productService.getProductById(id)
     })
   )
-  this.route.queryParamMap.subscribe(params =>{
+  this.paramSub$ = this.route.queryParamMap.subscribe(params =>{
     this.selectedSize = params.get('size');
     this.selectedColor = params.get('color');
   })
+}
+
+ngOnDestroy(): void {
+ if(this.paramSub$){
+  this.paramSub$.unsubscribe() ;
+ }
 }
 }
 
