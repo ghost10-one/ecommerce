@@ -60,14 +60,15 @@ export class AuthService {
    * @param { string | null } token
    */
 
-  private decodeAndStoreUser(token: string | null) {
-    if (token) {
-      const decodeToken = this.jwtHelper.decodeToken<UserPayload>(token);
-      this.user.next(decodeToken);
-    } else {
-      this.user.next(null);
+ private decodeAndStoreUser(token : string | null) : void {
+    if(token){
+      const decodeToken = this.jwtHelper.decodeToken<UserPayload>(token) ;
+      this.user.next(decodeToken) ;
+
+    }else {
+      this.user.next(null) ;
     }
-  }
+ }
 
   //_________________________________________________________________________
   //                 isAuthenticated method

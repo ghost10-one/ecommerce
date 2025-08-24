@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class DetailsComponent implements OnInit , OnDestroy {
  public product$ !: Observable<Iproducts>
- public paramSub$!:Subscription ;
+ public paramSub$ !: Subscription ;
  public selectedSize : string | null = null ;
  public selectedColor : string | null = null ;
 
