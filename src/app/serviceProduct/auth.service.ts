@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 ;
 
 
@@ -122,9 +122,6 @@ export class AuthService {
  * -----------------------------------------------------------
  *  GETACCESSTOKEN
  * -----------------------------------------------------------
- */
-
-/**
  * @return { string | null}
  */
 
@@ -147,17 +144,13 @@ export class AuthService {
   }
 
 
-
 /**
  * -----------------------------------------------------------------------
  *  SETTOKENS METHOD
  * -----------------------------------------------------------------------
+ *  Stocke les jetons d'accès et de rafraîchissement dans le localStorage et met à jour l'état d'authentification.
+ * @param {AuthResponse} tokens - Les jetons à stocker.
  */
-    /**
-   * Stocke les jetons d'accès et de rafraîchissement dans le localStorage et met à jour l'état d'authentification.
-   * @param {AuthResponse} tokens - Les jetons à stocker.
-   */
-
 
     public setTokens (tokens : AuthResponse) {
       localStorage.setItem('access_token' , tokens.accessToken)
@@ -214,6 +207,72 @@ export class AuthService {
         })
       )
     }
+
+  /**
+   * -------------------------------------------------------------------
+   * LOGOUT METHOD
+   * -------------------------------------------------------------------
+   * @description Déconnecte l'utilisateur en effaçant les jetons locaux et en notifiant le serveur.
+   */
+
+  public logout() : void {
+    const refreshToken = this.getRefreshToken() ;
+
+    if(refreshToken){
+      this.http.post(`${this.apiUrl}/auth/logout` , {refreshToken}).subscribe() ;
+    }
+    this.clearToken() ;
+    this.router.navigate(['/login'])
+  }
+
+  /**
+   * ------------------------------------------------------------------
+   * LOGIN WITH GOOGLE
+   * -------------------------------------------------------------------
+   * @description Lance le flux OAuth de Google en redirigeant vers le point de terminaison du backend.
+   */
+
+  public loginWithGoogle() : void {
+    window.location.href = `${this.apiUrl}/auth/google`
+  }
+    /**
+   * Gère le rappel de Google OAuth, en stockant les jetons de l'URL.
+   * @param {string} accessToken - Le jeton d'accès des paramètres de requête de l'URL.
+   * @param {string} refreshToken - Le jeton de rafraîchissement des paramètres de requête de l'URL.
+   */
+  public handleGoogleCallback(accessToken: string, refreshToken: string): void {
+    this.setTokens({ accessToken, refreshToken });
+    this.router.navigate(['/profile']);
+  }
+
+
+    /**
+   * Tente d'obtenir un nouveau jeton d'accès en utilisant le jeton de rafraîchissement.
+   * @returns {Observable<any>}
+   */
+  public refreshToken(): Observable<any> {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+      this.logout();
+      return of(null);
+    }
+
+    return this.http.post<any>(`${this.apiUrl}/auth/refresh-token`, { refreshToken }).pipe(
+      tap((response: { accessToken: string }) => {
+        localStorage.setItem('access_token', response.accessToken);
+        // Après le rafraîchissement, décodez le nouveau jeton d'accès pour mettre à jour les informations utilisateur
+        this.decodeAndStoreUser(response.accessToken);
+        this.AuthState.next(true);
+      }),
+      catchError((error) => {
+        // Si le jeton de rafraîchissement est également invalide, déconnectez l'utilisateur.
+        this.logout();
+        return of(null);
+      })
+    );
+  }
+
+
 }
 
 
