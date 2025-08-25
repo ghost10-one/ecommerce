@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AdminNotFoundComponent } from './pages/admin-not-found/admin-not-found.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminSignupComponent } from './pages/admin-signup/admin-signup.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: 'login',
         pathMatch: 'full',
       },
       {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'login',
         component: AdminLoginComponent,
+      },
+
+      {
+        path: 'signup', component :AdminSignupComponent
       },
       {
         path: '***',
