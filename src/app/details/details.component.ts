@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './details.component.css'
 })
 
-
 export class DetailsComponent implements OnInit , OnDestroy {
  public product$ !: Observable<Iproducts>
  public paramSub$ !: Subscription ;
@@ -37,5 +36,6 @@ ngOnDestroy(): void {
   this.paramSub$.unsubscribe() ;
  }
 }
+
 }
 

@@ -7,6 +7,9 @@ import { Iproducts } from '../iproduct';
   providedIn: 'root',
 })
 export class ProductService {
+  search(produit: Iproducts[], term: String): Iproducts[] {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:3000/products';
 
   constructor(private Http: HttpClient) {}
