@@ -7,7 +7,7 @@ import { Iproducts } from '../iproduct';
   providedIn: 'root',
 })
 export class ProductService {
-  search(produit: Iproducts[], term: String): Iproducts[] {
+  search(produit: Iproducts[], term: string): Iproducts[] {
     throw new Error('Method not implemented.');
   }
   private apiUrl = 'http://localhost:3000/products';
@@ -28,7 +28,8 @@ export class ProductService {
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
+
+  private handleError(error: HttpErrorResponse)  {
     if (error.status === 0) {
       console.error('An error occurred:', error.error);
     } else {
@@ -40,4 +41,16 @@ export class ProductService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
+
+  searchProduct(produits: Iproducts[], term: string): Iproducts[] {
+    if (!term || !term.length) {
+      return produits;
+    }
+    const resultat = produits.filter(produits =>
+      produits.name.includes(term) || produits.description.includes(term)
+    );
+    return resultat;
+  }
+
 }
+

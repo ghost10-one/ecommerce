@@ -1,4 +1,4 @@
-import { debounce, debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap, take, tap } from 'rxjs';
+import {  debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap, take, tap } from 'rxjs';
 import { Iproducts } from '../iproduct';
 import { ProductService } from './../serviceProduct/product.service';
 import { Component, OnInit } from '@angular/core';
@@ -32,14 +32,17 @@ export class HomeComponent implements OnInit {
         this.searchSubscription = this.searchTerm.pipe(
           debounceTime(300) ,
           distinctUntilChanged() ,
-          switchMap((term : String) =>{
-            this.searchResults$.next(this.ProductService.search(produit , term))
+          switchMap((term : string) =>{
+            this.searchResults$.next(this.ProductService.searchProduct(produit , term))
             return this.searchResults$
           })
         ).subscribe()
       })
     ).subscribe()
 
+  }
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe() ;
   }
 
 }
